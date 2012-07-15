@@ -7,7 +7,7 @@ package com.twu28.biblioteca;
  * Time: 5:31 PM
  * To change this template use File | Settings | File Templates.
  */
-public class OutputToConsole {
+public class Console {
     public void printToConsole(String textToBePrinted) {
         System.out.println(textToBePrinted);
     }

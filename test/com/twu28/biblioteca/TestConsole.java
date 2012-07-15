@@ -16,7 +16,7 @@ import static junit.framework.Assert.assertEquals;
  * Time: 5:29 PM
  * To change this template use File | Settings | File Templates.
  */
-public class TestOutput {
+public class TestConsole {
     private final ByteArrayOutputStream output = new ByteArrayOutputStream();
 
     @Before
@@ -35,7 +35,7 @@ public class TestOutput {
     public void testIfMessageIsPrintedToConsole()
     {
         String lineSeparator=getLineSeparator();
-        OutputToConsole outputToConsole=new OutputToConsole();
+        Console outputToConsole=new Console();
         outputToConsole.printToConsole("Welcome !!");
         assertEquals("Welcome !!" + lineSeparator,output.toString());
     }
