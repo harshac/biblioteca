@@ -1,8 +1,6 @@
 package com.twu28.biblioteca;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,9 +12,17 @@ import java.io.InputStreamReader;
 public class Console {
 
     private String userInputFromConsole;
+    private InputStream userInput;
 
     public void printToConsole(String textToBePrinted) {
         System.out.println(textToBePrinted);
     }
+
+    public String getInputFromConsole() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        userInputFromConsole = br.readLine();
+        return userInputFromConsole;
+    }
+
 
 }

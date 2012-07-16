@@ -4,8 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.io.*;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -18,7 +17,20 @@ import static junit.framework.Assert.assertEquals;
  */
 public class TestConsole {
     private final ByteArrayOutputStream output = new ByteArrayOutputStream();
+    private ByteArrayInputStream inputStream;
+
+    private String userInput="2";
+    InputStream testInput;
     private Console console=new Console();
+
+    public TestConsole() {
+        inputStream = new ByteArrayInputStream(userInput.getBytes());
+    }
+
+    public TestConsole(String userInputToBeSet) {
+        this.userInput=userInputToBeSet;
+        inputStream = new ByteArrayInputStream(userInput.getBytes());
+    }
 
     @Before
     public void setUpOutputToPrintStream()
@@ -50,6 +62,23 @@ public class TestConsole {
         return this.output.toString();
     }
 
+    @Before
+    public void setUpInputToByteArrayInputStream()
+    {
+        System.setIn(inputStream);
 
+    }
+    @Test
+    public void testIfUserInputIsReceivedFromConsole() throws IOException {
+        userInput=console.getInputFromConsole();
+        assertEquals("2",userInput);
+
+    }
+
+    @After
+    public void tearDownInputToSystemDotIn()
+    {
+        System.setIn(System.in);
+    }
 
 }

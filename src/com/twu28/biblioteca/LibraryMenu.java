@@ -1,5 +1,6 @@
 package com.twu28.biblioteca;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,8 @@ import java.util.List;
  */
 public class LibraryMenu {
     private List<String> listOfMenuOptions=new ArrayList<String>();
-
+    private int userMenuOption;
+    private Console console=new Console();
     LibraryMenu()
     {
         listOfMenuOptions.add("1.View all books");
@@ -23,10 +25,47 @@ public class LibraryMenu {
 
 
     public void displayMenu() {
-        Console console=new Console();
+
         for(String item: listOfMenuOptions)
         {
             console.printToConsole(item);
         }
+    }
+
+    public boolean userMenuOptionIsInteger(String userMenuOptionFromConsole) throws IOException {
+        try
+        {
+            convertUserConsoleInputStringToInteger(userMenuOptionFromConsole);
+        }
+        catch (NumberFormatException numberFormatException)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public int getUserMenuOption() throws IOException {
+        String userMenuOptionFromConsole=console.getInputFromConsole();
+        userMenuOption=convertUserConsoleInputStringToInteger(userMenuOptionFromConsole);
+        if(!checkIfUserMenuOptionIsValid(this.userMenuOption))
+        {
+            userMenuOption=-1;
+        }
+        return userMenuOption;
+    }
+
+    public int convertUserConsoleInputStringToInteger(String userMenuOptionFromConsole)
+    {
+        userMenuOption=Integer.parseInt(userMenuOptionFromConsole);
+        return userMenuOption;
+    }
+
+
+    public boolean checkIfUserMenuOptionIsValid(int userMenuOption) {
+        if(userMenuOption>=1 && userMenuOption<=4)
+        {
+            return true;
+        }
+        return false;
     }
 }
