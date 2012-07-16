@@ -18,6 +18,7 @@ import static junit.framework.Assert.assertEquals;
  */
 public class TestConsole {
     private final ByteArrayOutputStream output = new ByteArrayOutputStream();
+    private Console console=new Console();
 
     @Before
     public void setUpOutputToPrintStream()
@@ -35,9 +36,8 @@ public class TestConsole {
     public void testIfMessageIsPrintedToConsole()
     {
         String lineSeparator=getLineSeparator();
-        Console outputToConsole=new Console();
-        outputToConsole.printToConsole("Welcome !!");
-        assertEquals("Welcome !!" + lineSeparator,output.toString());
+        console.printToConsole("Welcome !!");
+        assertEquals("Welcome !!" + lineSeparator,getOutputStream());
     }
 
     public String getLineSeparator()
@@ -49,5 +49,7 @@ public class TestConsole {
     {
         return this.output.toString();
     }
+
+
 
 }

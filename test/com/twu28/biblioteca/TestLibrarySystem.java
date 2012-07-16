@@ -1,14 +1,13 @@
 package com.twu28.biblioteca;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,15 +17,36 @@ import static junit.framework.Assert.assertTrue;
  * To change this template use File | Settings | File Templates.
  */
 public class TestLibrarySystem {
+    private LibrarySystem librarySystem=new LibrarySystem();
+    private TestConsole testConsole =new TestConsole();
 
     @Test
     public void showWelcomeMessageOnApplicationStart()
     {
-        LibrarySystem librarySystem=new LibrarySystem();
-        TestOutput testOutput=new TestOutput();
-        testOutput.setUpOutputToPrintStream();
+        testConsole.setUpOutputToPrintStream();
         librarySystem.showWelcomeMessage();
-        assertEquals("Welcome !!" + testOutput.getLineSeparator(), testOutput.getOutputStream());
+        assertEquals("Welcome !!" + getLineSeparator(), getOutputStream() );
+        testConsole.tearDownOutputFromPrintStream();
+    }
+
+    @Test
+    public void showListOfMenuOptions()
+    {
+        testConsole.setUpOutputToPrintStream();
+        librarySystem.showMenu();
+        String lineSeparator=getLineSeparator();
+        String expectedListOfMenuOptions="1.View all books"+lineSeparator+"2.Reserve a book"+lineSeparator+"3.Check Library Number"+lineSeparator+"4.Exit"+lineSeparator;
+        assertEquals(expectedListOfMenuOptions, getOutputStream());
+    }
+
+    private String getLineSeparator()
+    {
+        return testConsole.getLineSeparator();
+    }
+
+    private String getOutputStream()
+    {
+        return testConsole.getOutputStream();
     }
 
 

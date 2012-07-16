@@ -1,5 +1,9 @@
 package com.twu28.biblioteca;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 /**
  * Created with IntelliJ IDEA.
  * User: hp
@@ -8,7 +12,11 @@ package com.twu28.biblioteca;
  * To change this template use File | Settings | File Templates.
  */
 public class Console {
+
+    private String userInputFromConsole;
+
     public void printToConsole(String textToBePrinted) {
         System.out.println(textToBePrinted);
     }
+
 }

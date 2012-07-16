@@ -1,5 +1,7 @@
 package com.twu28.biblioteca;
 
+import java.io.IOException;
+
 /**
  * Created with IntelliJ IDEA.
  * User: hp
@@ -9,9 +11,16 @@ package com.twu28.biblioteca;
  */
 public class LibrarySystem {
 
-    private  OutputToConsole outputToConsole=new OutputToConsole();
+    private Console console =new Console();
 
     public void showWelcomeMessage() {
-        outputToConsole.printToConsole("Welcome !!");
+        console.printToConsole("Welcome !!");
     }
+
+    public void showMenu() {
+       LibraryMenu libraryMenu=new LibraryMenu();
+        libraryMenu.displayMenu();
+    }
+
+
 }
