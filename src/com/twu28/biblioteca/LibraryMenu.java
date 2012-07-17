@@ -47,6 +47,10 @@ public class LibraryMenu {
     public int getUserMenuOption() throws IOException {
         String userMenuOptionFromConsole=console.getInputFromConsole();
         userMenuOption=convertUserConsoleInputStringToInteger(userMenuOptionFromConsole);
+        if(!userMenuOptionIsInteger(userMenuOptionFromConsole))
+        {
+            userMenuOption=-1;
+        }
         if(!checkIfUserMenuOptionIsValid(this.userMenuOption))
         {
             userMenuOption=-1;

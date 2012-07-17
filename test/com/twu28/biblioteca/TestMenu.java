@@ -27,6 +27,7 @@ public class TestMenu {
         libraryMenu.displayMenu();
         String expectedListOfMenuOptions="1.View all books"+lineSeparator+"2.Reserve a book"+lineSeparator+"3.Check Library Number"+lineSeparator+"4.Exit"+lineSeparator;
         assertEquals(expectedListOfMenuOptions, testConsole.getOutputStream());
+        testConsole.tearDownOutputFromPrintStream();
     }
 
     @Test

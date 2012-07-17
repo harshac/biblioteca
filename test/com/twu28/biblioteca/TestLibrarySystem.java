@@ -49,5 +49,24 @@ public class TestLibrarySystem {
         return testConsole.getOutputStream();
     }
 
+    @Test
+    public void getValidMenuOptionFromCustomer() throws IOException {
+        TestConsole testConsole=new TestConsole("4");
+        testConsole.setUpInputToByteArrayInputStream();
+        int userMenuOption=librarySystem.getMenuOption();
+        assertEquals(4,userMenuOption);
+        testConsole.tearDownInputToSystemDotIn();
+    }
+
+    @Test
+    public void getInvalidMenuOptionFromCustomerWhenUserInput() throws IOException {
+        TestConsole testConsole=new TestConsole("34");
+        testConsole.setUpInputToByteArrayInputStream();
+        int userMenuOption=librarySystem.getMenuOption();
+        assertEquals(-1,userMenuOption);
+        testConsole.tearDownInputToSystemDotIn();
+    }
+
+
 
 }
