@@ -21,19 +21,19 @@ public class TestMenu {
     @Test
     public void testDisplayMenu()
     {
-        TestConsole testConsole=new TestConsole();
-        testConsole.setUpOutputToPrintStream();
-        String lineSeparator=testConsole.getLineSeparator();
+        TestSpecificConsole testSpecificConsole =new TestSpecificConsole();
+        testSpecificConsole.setUpOutputToPrintStream();
+        String lineSeparator= testSpecificConsole.getLineSeparator();
         libraryMenu.displayMenu();
-        String expectedListOfMenuOptions="1.View all books"+lineSeparator+"2.Reserve a book"+lineSeparator+"3.Check Library Number"+lineSeparator+"4.Exit"+lineSeparator;
-        assertEquals(expectedListOfMenuOptions, testConsole.getOutputStream());
-        testConsole.tearDownOutputFromPrintStream();
+        String expectedListOfMenuOptions="1.View all books"+lineSeparator+"2.Reserve a book"+lineSeparator+"3.Check Library Number"+lineSeparator+"4.View all movies"+lineSeparator+"5.Exit"+lineSeparator;
+        assertTrue(testSpecificConsole.getOutputStream().contains(expectedListOfMenuOptions));
+        testSpecificConsole.tearDownOutputFromPrintStream();
     }
 
     @Test
     public void testIfUserMenuOptionIsInteger() throws IOException {
 
-        assertTrue(libraryMenu.userMenuOptionIsInteger("13"));
+        assertEquals(13,libraryMenu.userMenuOptionIsInteger("13"));
 
     }
 
@@ -46,12 +46,10 @@ public class TestMenu {
 
     @Test
     public void getUserMenuOption() throws IOException {
-        TestConsole testConsole=new TestConsole("34");
-        testConsole.setUpInputToByteArrayInputStream();
+        TestSpecificConsole testSpecificConsole =new TestSpecificConsole("34");
+        testSpecificConsole.setUpInputToByteArrayInputStream();
         int userMenuOption=libraryMenu.getUserMenuOption();
-        assertEquals(34,userMenuOption);
-        testConsole.tearDownInputToSystemDotIn();
-
+        assertEquals(-1,userMenuOption);
+        testSpecificConsole.tearDownInputToSystemDotIn();
     }
-
 }

@@ -3,10 +3,9 @@ package com.twu28.biblioteca;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
 
 /**
@@ -18,53 +17,54 @@ import static junit.framework.Assert.assertEquals;
  */
 public class TestLibrarySystem {
     private LibrarySystem librarySystem=new LibrarySystem();
-    private TestConsole testConsole =new TestConsole();
+    private TestSpecificConsole testSpecificConsole =new TestSpecificConsole();
 
     @Test
     public void showWelcomeMessageOnApplicationStart()
     {
-        testConsole.setUpOutputToPrintStream();
+        testSpecificConsole.setUpOutputToPrintStream();
         librarySystem.showWelcomeMessage();
         assertEquals("Welcome !!" + getLineSeparator(), getOutputStream() );
-        testConsole.tearDownOutputFromPrintStream();
+        testSpecificConsole.tearDownOutputFromPrintStream();
     }
 
     @Test
     public void showListOfMenuOptions()
     {
-        testConsole.setUpOutputToPrintStream();
+        testSpecificConsole.setUpOutputToPrintStream();
         librarySystem.showMenu();
         String lineSeparator=getLineSeparator();
-        String expectedListOfMenuOptions="1.View all books"+lineSeparator+"2.Reserve a book"+lineSeparator+"3.Check Library Number"+lineSeparator+"4.Exit"+lineSeparator;
-        assertEquals(expectedListOfMenuOptions, getOutputStream());
+        String expectedListOfMenuOptions="1.View all books"+lineSeparator+"2.Reserve a book"+lineSeparator+"3.Check Library Number"+lineSeparator+"4.View all movies"+lineSeparator+"5.Exit"+lineSeparator;
+        assertTrue(getOutputStream().contains(expectedListOfMenuOptions));
+
     }
 
     private String getLineSeparator()
     {
-        return testConsole.getLineSeparator();
+        return testSpecificConsole.getLineSeparator();
     }
 
     private String getOutputStream()
     {
-        return testConsole.getOutputStream();
+        return testSpecificConsole.getOutputStream();
     }
 
     @Test
     public void getValidMenuOptionFromCustomer() throws IOException {
-        TestConsole testConsole=new TestConsole("4");
-        testConsole.setUpInputToByteArrayInputStream();
+        TestSpecificConsole testSpecificConsole =new TestSpecificConsole("4");
+        testSpecificConsole.setUpInputToByteArrayInputStream();
         int userMenuOption=librarySystem.getMenuOption();
         assertEquals(4,userMenuOption);
-        testConsole.tearDownInputToSystemDotIn();
+        testSpecificConsole.tearDownInputToSystemDotIn();
     }
 
     @Test
     public void getInvalidMenuOptionFromCustomerWhenUserInput() throws IOException {
-        TestConsole testConsole=new TestConsole("34");
-        testConsole.setUpInputToByteArrayInputStream();
+        TestSpecificConsole testSpecificConsole =new TestSpecificConsole("34");
+        testSpecificConsole.setUpInputToByteArrayInputStream();
         int userMenuOption=librarySystem.getMenuOption();
         assertEquals(-1,userMenuOption);
-        testConsole.tearDownInputToSystemDotIn();
+        testSpecificConsole.tearDownInputToSystemDotIn();
     }
 
 

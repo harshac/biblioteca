@@ -12,15 +12,16 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class LibraryMenu {
-    private List<String> listOfMenuOptions=new ArrayList<String>();
-    private int userMenuOption;
+    private static List<String> listOfMenuOptions;
     private Console console=new Console();
     LibraryMenu()
     {
+        listOfMenuOptions=new ArrayList<String>();
         listOfMenuOptions.add("1.View all books");
         listOfMenuOptions.add("2.Reserve a book");
         listOfMenuOptions.add("3.Check Library Number");
-        listOfMenuOptions.add("4.Exit");
+        listOfMenuOptions.add("4.View all movies");
+        listOfMenuOptions.add("5.Exit");
     }
 
 
@@ -32,44 +33,37 @@ public class LibraryMenu {
         }
     }
 
-    public boolean userMenuOptionIsInteger(String userMenuOptionFromConsole) throws IOException {
-        try
-        {
-            convertUserConsoleInputStringToInteger(userMenuOptionFromConsole);
+    public int userMenuOptionIsInteger(String userMenuOptionFromConsole) throws IOException {
+        int userMenuOption;
+        try {
+            userMenuOption = Integer.parseInt(userMenuOptionFromConsole);
+        } catch (NumberFormatException numberFormatException) {
+            return -1;
         }
-        catch (NumberFormatException numberFormatException)
-        {
-            return false;
-        }
-        return true;
+        return userMenuOption;
     }
 
     public int getUserMenuOption() throws IOException {
         String userMenuOptionFromConsole=console.getInputFromConsole();
-        userMenuOption=convertUserConsoleInputStringToInteger(userMenuOptionFromConsole);
-        if(!userMenuOptionIsInteger(userMenuOptionFromConsole))
-        {
-            userMenuOption=-1;
-        }
-        if(!checkIfUserMenuOptionIsValid(this.userMenuOption))
+        int userMenuOption=userMenuOptionIsInteger(userMenuOptionFromConsole);
+        if(!checkIfUserMenuOptionIsValid(userMenuOption))
         {
             userMenuOption=-1;
         }
         return userMenuOption;
     }
-
-    public int convertUserConsoleInputStringToInteger(String userMenuOptionFromConsole)
-    {
-        userMenuOption=Integer.parseInt(userMenuOptionFromConsole);
-        return userMenuOption;
-    }
-
 
     public boolean checkIfUserMenuOptionIsValid(int userMenuOption) {
-        if(userMenuOption>=1 && userMenuOption<=4)
+        int noOfMenuOptions=noOfMenuOptions();
+        if(userMenuOption>=1 && userMenuOption<=noOfMenuOptions)
         {
             return true;
         }
         return false;
+    }
+
+    public int noOfMenuOptions()
+    {
+        return listOfMenuOptions.size();
     }
 }

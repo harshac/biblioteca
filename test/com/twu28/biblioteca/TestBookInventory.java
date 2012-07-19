@@ -45,7 +45,7 @@ public class TestBookInventory {
         getBookInventoryObject();
         String actualBookDetails;
         actualBookDetails = bookInventory.displayBookDetails();
-        TestConsole testConsole=new TestConsole();
+        TestSpecificConsole testSpecificConsole =new TestSpecificConsole();
         assertEquals("123345\tHead First Java\tKathy Sierra,Bert Bates,\tO'Reilly\t5",actualBookDetails);
     }
 

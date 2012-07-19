@@ -1,6 +1,7 @@
 package com.twu28.biblioteca;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -12,36 +13,7 @@ import java.util.List;
  */
 public class Library {
     private static List<BookInventory> bookList=new ArrayList<BookInventory>();
-
-    Library()
-    {
-        // Create author list
-        List<String> authors=new ArrayList<String>();
-        authors.add("Kathy Sierra");
-        authors.add("Bert Bates");
-
-        // Instantiate Book
-        Book book=new Book(123345,"Head First Java",authors,"O'Reilly");
-
-        //Instantiate BookInventory
-        BookInventory booksTemp=new BookInventory(book,10);
-
-        // Add book to list
-        addBook(booksTemp);
-
-
-        authors=new ArrayList<String>();
-        authors.add("Barry Burd");
-        book=new Book(267556,"Beginning Programming with Java For Dummies",authors,"Wiley");
-        booksTemp=new BookInventory(book,7);
-        addBook(booksTemp);
-
-        authors=new ArrayList<String>();
-        authors.add("Herbert Schildt");
-        book=new Book(267589,"Java, A Beginner's Guide, 5th Edition",authors,"Oracle Press");
-        booksTemp=new BookInventory(book,5);
-        addBook(booksTemp);
-    }
+    private static List<MovieRating> movieList=new ArrayList<MovieRating>();
 
     public int addBook(BookInventory book) {
         if(searchBook(book.getBook().getIsbnNo())==-1)
@@ -58,7 +30,7 @@ public class Library {
     public int searchBook(int bookNo)
     {
         int found=-1;
-        if(!checkEmpty())
+        if(!checkEmpty(this.getBookList()))
         {
             for(BookInventory book:bookList)
             {
@@ -73,8 +45,8 @@ public class Library {
         return found;
     }
 
-    public boolean checkEmpty() {
-        return bookList.isEmpty();  //To change body of created methods use File | Settings | File Templates.
+    public boolean checkEmpty(Collection list) {
+        return list.isEmpty();  //To change body of created methods use File | Settings | File Templates.
     }
 
     public String viewAllBooks() {
@@ -111,5 +83,30 @@ public class Library {
             return false;
         }
         return true;
+    }
+
+    public List<BookInventory> getBookList()
+    {
+        return bookList;
+    }
+
+    public List<MovieRating> getMovieList() {
+        return movieList;
+    }
+
+    public void addMovie(MovieRating movieRating) {
+        movieList.add(movieRating);
+    }
+
+    public String viewAllMovies() {
+        int i=1;
+        String movieDetails="";
+        for(MovieRating movie: movieList)
+        {
+            movieDetails=movieDetails.concat(Integer.toString(i)+"\t");
+            movieDetails=movieDetails.concat(movie.getMovieDetails()+"\n");
+            i++;
+        }
+        return  movieDetails;
     }
 }

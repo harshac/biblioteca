@@ -40,7 +40,7 @@ public class TestBook {
     {
         String actualAuthorNames;
         actualAuthorNames = book.getAuthors();
-        assertEquals("Kathy Sierra,Bert Bates,", actualAuthorNames);
+        assertEquals("\tKathy Sierra,Bert Bates,", actualAuthorNames);
     }
 
 }

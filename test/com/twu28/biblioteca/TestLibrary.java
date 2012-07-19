@@ -1,5 +1,6 @@
 package com.twu28.biblioteca;
 
+import junit.framework.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -33,14 +34,15 @@ public class TestLibrary {
     }
 
     @Test
-    public void doNotAddBookOnlyIfIsbnNoIsSame()
+    public void doNotAddBookIfIsbnNoIsSame()
     {
         List<String>authors=new ArrayList<String>();
         authors.add("Barry Burd");
         Book book=new Book(267556,"Beginning Programming with Java For Dummies",authors,"Wiley");
         BookInventory bookInventory=new BookInventory(book,7);
         int bookAddedSuccess;
-        bookAddedSuccess = library.addBook(bookInventory);
+        library.addBook(bookInventory);
+        bookAddedSuccess=library.addBook(bookInventory);
         assertEquals(-1,bookAddedSuccess);
     }
 
@@ -49,21 +51,22 @@ public class TestLibrary {
     public void testViewAllBooks()
     {
         String actual=library.viewAllBooks();
-        String expected="123345\tHead First Java\tKathy Sierra,Bert Bates,\tO'Reilly\t10\n267556\tBeginning Programming with Java For Dummies\tBarry Burd,\tWiley\t7\n267589\tJava, A Beginner's Guide, 5th Edition\tHerbert Schildt,\tOracle Press\t5\n";
+        String expected="321146530\tTest Driven Development: By Example\tKent Beck,\tAddison Wisley\t3\n267556\tBeginning Programming with Java For Dummies\tBarry Burd,\tWiley\t7\n";
+
         assertEquals(expected, actual);
     }
 
     @Test
-    public void testIfEmpty()
+    public void testIfBookListIsEmpty()
     {
-        assertFalse(library.checkEmpty());
+        assertFalse(library.checkEmpty(library.getBookList()));
     }
 
     @Test
     public void testSearchBookWhenBookIsFound()
     {
-        int bookPositionInList= library.searchBook(123345);
-        assertEquals(0,bookPositionInList);
+        int bookPositionInList= library.searchBook(267556);
+        assertEquals(1,bookPositionInList);
     }
 
     @Test
@@ -88,7 +91,7 @@ public class TestLibrary {
     @Test
     public void reserveBookIfAvailable()
     {
-        assertTrue(library.reserveBook(123345));
+        assertTrue(library.reserveBook(267556));
     }
 
     @Test
@@ -104,5 +107,26 @@ public class TestLibrary {
     }
 
 
+    @Test
+    public void testIfMovieListIsEmpty()
+    {
+        List<String> directors=new ArrayList<String>();
+        directors.add("Ramesh Sippy");
+        Movie movie=new Movie("Sholay", directors);
+        MovieRating movieRating=new MovieRating(movie,9);
+        library.addMovie(movieRating);
+        assertFalse(library.checkEmpty(library.getMovieList()));
+    }
 
+    @Test
+    public void viewAllMovies()
+    {
+        List<String> directors=new ArrayList<String>();
+        directors.add("Shakti Samanta");
+        Movie movie=new Movie("Dushman", directors);
+        MovieRating movieRating=new MovieRating(movie,-1);
+        library.addMovie(movieRating);
+        String expectedMovieDetails="Sholay\tRamesh Sippy,\t9\nDushman\tShakti Samanta,\tN/A\n";
+        assertEquals(expectedMovieDetails,library.viewAllMovies());
+    }
 }
