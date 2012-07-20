@@ -2,6 +2,7 @@ package com.twu28.biblioteca;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -15,6 +16,7 @@ public class LibrarySystem {
 
     private Console console =new Console();
     private LibraryMenu libraryMenu=new LibraryMenu();
+    private static List<LoginCredentials> loginCredentialsList=new ArrayList<LoginCredentials>();
 
     public void showWelcomeMessage() {
         console.printToConsole("Welcome !!");
@@ -36,6 +38,73 @@ public class LibrarySystem {
         return libraryMenu.getUserMenuOption();
 
     }
+
+    public int getUserListSize() {
+        return loginCredentialsList.size();
+    }
+
+    public void addUserToLibrary(LoginCredentials loginCredentials)
+    {
+        loginCredentialsList.add(loginCredentials);
+    }
+
+
+    public int searchUser(int libraryNumber) {
+        int found=-1;
+        if(!checkEmpty(loginCredentialsList))
+        {
+            found=findUserInList(libraryNumber);
+        }
+        return found;
+    }
+
+    public boolean checkEmpty(Collection list) {
+        return list.isEmpty();  //To change body of created methods use File | Settings | File Templates.
+    }
+
+    public int findUserInList(int libraryNumber) {
+        int found = -1;
+        for (LoginCredentials loginCredentials : loginCredentialsList) {
+            if (loginCredentials.getLibraryNumber() == libraryNumber)
+            {
+                found = loginCredentialsList.indexOf(loginCredentials);
+                break;
+            }
+        }
+        return found;
+    }
+
+    public boolean authenticateUser(int libraryNumber, String password) {
+        int found=searchUser(libraryNumber);
+        if(found!=-1)
+        {
+            return verifyPassword(found,password);
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+    private boolean verifyPassword(int libraryNumberIndex, String password) {
+        LoginCredentials loginCredentials=loginCredentialsList.get(libraryNumberIndex);
+        if(loginCredentials.getPassword().equals(password))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public List<LoginCredentials> getLoginCredentialsList() {
+        return loginCredentialsList;
+    }
+
+    public int getLibraryNumber(LoginCredentials loginCredentials){
+        return loginCredentials.getLibraryNumber();
+    }
+
+    /*Static Blocks */
 
     public static void addBooks(Library library)
     {
@@ -67,7 +136,7 @@ public class LibrarySystem {
         library.addBook(booksTemp);
     }
 
-    public static void addMovies(Library library)
+        public static void addMovies(Library library)
     {
         /* Movie 1*/
         List<String> directors=new ArrayList<String>();
@@ -176,6 +245,31 @@ public class LibrarySystem {
         library.addMovie(movieRating);
     }
 
+    public static void addUsers(LibrarySystem librarySystem)
+    {
+        User user=new User();
+        user.addUser("Harsha","Chaudhary");
+        LoginCredentials loginCredentials=new LoginCredentials(user, librarySystem.getUserListSize(),"abcd");
+        librarySystem.addUserToLibrary(loginCredentials);
+
+        user=new User();
+        user.addUser("Amar","Singh");
+        loginCredentials=new LoginCredentials(user, librarySystem.getUserListSize(),"pqrs");
+        librarySystem.addUserToLibrary(loginCredentials);
+
+        user=new User();
+        user.addUser("John","Mathew");
+        loginCredentials=new LoginCredentials(user, librarySystem.getUserListSize(),"xyz");
+        librarySystem.addUserToLibrary(loginCredentials);
+
+        user=new User();
+        user.addUser("Akanksha", "Kumar");
+        loginCredentials=new LoginCredentials(user, librarySystem.getUserListSize(),"1234");
+        librarySystem.addUserToLibrary(loginCredentials);
+    }
+
+
+
     public static void main(String args[]) throws IOException
     {
         LibrarySystem librarySystem=new LibrarySystem();
@@ -184,6 +278,7 @@ public class LibrarySystem {
         Library library=new Library();
         addBooks(library);
         addMovies(library);
+        addUsers(librarySystem);
         int noOfMenuOptions=librarySystem.noOfMenuOptions();
         int choice=0;
         do{
@@ -210,7 +305,21 @@ public class LibrarySystem {
                     }
                     break;
                 case 3:
-                    consoleForMain.printToConsole("Please talk to Librarian. Thank you.");
+                    consoleForMain.printToConsole("Username:");
+                    int username= 0;
+                    username= Integer.parseInt(consoleForMain.getInputFromConsole());
+                    consoleForMain.printToConsole("Password");
+                    String password=consoleForMain.getInputFromConsole();
+                    if(librarySystem.authenticateUser(username,password))
+                    {
+                        int found=librarySystem.searchUser(username);
+                        String libraryNumber= Integer.toString(librarySystem.getLibraryNumber(librarySystem.getLoginCredentialsList().get(found)));
+                        consoleForMain.printToConsole("Libary Number :" + libraryNumber);
+                    }
+                    else
+                    {
+                        consoleForMain.printToConsole("Please talk to Librarian. Thank you.");
+                    }
                     break;
                 case 4:
                     consoleForMain.printToConsole(library.viewAllMovies());
@@ -224,4 +333,9 @@ public class LibrarySystem {
 
 
     }
+
+
+
+
+
 }

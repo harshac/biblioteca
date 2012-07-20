@@ -35,6 +35,6 @@ public class TestMovie {
         directors.add("Hema Malini");
         Movie movie=new Movie("Tell Me O Kkhuda",directors);
         String movieDetails=movie.getMovieDetails();
-        assertEquals("Tell Me O Kkhuda\tMayur Puri,Hema Malini,",movieDetails);
+        assertEquals("Tell Me O Kkhuda\t--\tMayur Puri,Hema Malini,\t--",movieDetails);
     }
 }

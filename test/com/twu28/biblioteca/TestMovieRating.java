@@ -35,7 +35,7 @@ public class TestMovieRating {
         directors.add("Ramesh Sippy");
         Movie movie=new Movie("Sholay", directors);
         MovieRating movieRating=new MovieRating(movie,9);
-        String expectedMovieDetails="Sholay\tRamesh Sippy,\t9";
+        String expectedMovieDetails="Sholay\t--\tRamesh Sippy,\t--\t9";
         assertEquals(expectedMovieDetails,movieRating.getMovieDetails());
     }
 
@@ -46,7 +46,7 @@ public class TestMovieRating {
         directors.add("Homi Adajania");
         Movie movie=new Movie("Cocktail", directors);
         MovieRating movieRating=new MovieRating(movie,-1);
-        String expectedMovieDetails="Cocktail\tHomi Adajania,\tN/A";
+        String expectedMovieDetails="Cocktail\t--\tHomi Adajania,\t--\tN/A";
         assertEquals(expectedMovieDetails,movieRating.getMovieDetails());
     }
 

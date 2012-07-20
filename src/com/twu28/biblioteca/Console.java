@@ -24,5 +24,13 @@ public class Console {
         return userInputFromConsole;
     }
 
+   /* public String getPassword() throws IOException{
+        //BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        //String password = br.readLine();
+        char [] password=null;
+        password=System.console().readPassword();
+        return password.toString();
+    }*/
+
 
 }

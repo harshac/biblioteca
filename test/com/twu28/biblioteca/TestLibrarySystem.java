@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 
 /**
@@ -67,6 +68,58 @@ public class TestLibrarySystem {
         testSpecificConsole.tearDownInputToSystemDotIn();
     }
 
+
+    @Test
+    public void testSearchUserWhenUserIsFound()
+    {
+        User user=new User();
+        user.addUser("Celina","Bush");
+        LoginCredentials loginCredentials=new LoginCredentials(user,librarySystem.getUserListSize(),"abc");
+        librarySystem.addUserToLibrary(loginCredentials);
+
+        user=new User();
+        user.addUser("Justina","Mathew");
+        loginCredentials=new LoginCredentials(user,librarySystem.getUserListSize(),"xyz");
+        librarySystem.addUserToLibrary(loginCredentials);
+        int userPositionInList= librarySystem.searchUser(1111112);
+        assertEquals(1,userPositionInList);
+    }
+
+    @Test
+    public void findUserInListWhenUserFound()
+    {
+        int index=librarySystem.findUserInList(1111112);
+        assertEquals(1,index);
+    }
+
+    @Test
+    public void findUserInListWhenUserNotFound()
+    {
+        int index=librarySystem.findUserInList(1111113);
+        assertEquals(-1,index);
+    }
+
+    @Test
+    public void testUserAuthenticationWhenSuccessful()
+    {
+        boolean authenticationSuccess= librarySystem.authenticateUser(1111111,"abc");
+        assertTrue(authenticationSuccess);
+    }
+
+    @Test
+    public void testUserAuthenticationWhenFailed()
+    {
+        boolean authenticationSuccess= librarySystem.authenticateUser(1111111,"ab");
+        assertFalse(authenticationSuccess);
+    }
+
+    @Test
+    public void testGetLibraryNumberWhenUserIsValid()
+    {
+        int found=librarySystem.searchUser(1111111);
+        assertEquals(1111111,librarySystem.getLibraryNumber(librarySystem.getLoginCredentialsList().get(found)));
+
+    }
 
 
 }

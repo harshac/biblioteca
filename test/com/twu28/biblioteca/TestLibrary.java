@@ -126,7 +126,7 @@ public class TestLibrary {
         Movie movie=new Movie("Dushman", directors);
         MovieRating movieRating=new MovieRating(movie,-1);
         library.addMovie(movieRating);
-        String expectedMovieDetails="Sholay\tRamesh Sippy,\t9\nDushman\tShakti Samanta,\tN/A\n";
+        String expectedMovieDetails="1\tSholay\t--\tRamesh Sippy,\t--\t9\n2\tDushman\t--\tShakti Samanta,\t--\tN/A\n";
         assertEquals(expectedMovieDetails,library.viewAllMovies());
     }
 }
