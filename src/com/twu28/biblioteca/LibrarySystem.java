@@ -16,15 +16,23 @@ public class LibrarySystem {
 
     private Console console =new Console();
     private LibraryMenu libraryMenu=new LibraryMenu();
-    private static List<LoginCredentials> loginCredentialsList=new ArrayList<LoginCredentials>();
+    private int loggedInUser=0;
 
     public void showWelcomeMessage() {
         console.printToConsole("Welcome !!");
     }
 
+    public void setLoggedInUser(int loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
+
     public void showMenu() {
 
         libraryMenu.displayMenu();
+    }
+
+    public int getLoggedInUser() {
+        return loggedInUser;
     }
 
     public int noOfMenuOptions()
@@ -39,74 +47,10 @@ public class LibrarySystem {
 
     }
 
-    public int getUserListSize() {
-        return loginCredentialsList.size();
-    }
-
-    public void addUserToLibrary(LoginCredentials loginCredentials)
-    {
-        loginCredentialsList.add(loginCredentials);
-    }
-
-
-    public int searchUser(int libraryNumber) {
-        int found=-1;
-        if(!checkEmpty(loginCredentialsList))
-        {
-            found=findUserInList(libraryNumber);
-        }
-        return found;
-    }
-
-    public boolean checkEmpty(Collection list) {
-        return list.isEmpty();  //To change body of created methods use File | Settings | File Templates.
-    }
-
-    public int findUserInList(int libraryNumber) {
-        int found = -1;
-        for (LoginCredentials loginCredentials : loginCredentialsList) {
-            if (loginCredentials.getLibraryNumber() == libraryNumber)
-            {
-                found = loginCredentialsList.indexOf(loginCredentials);
-                break;
-            }
-        }
-        return found;
-    }
-
-    public boolean authenticateUser(int libraryNumber, String password) {
-        int found=searchUser(libraryNumber);
-        if(found!=-1)
-        {
-            return verifyPassword(found,password);
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-
-    private boolean verifyPassword(int libraryNumberIndex, String password) {
-        LoginCredentials loginCredentials=loginCredentialsList.get(libraryNumberIndex);
-        if(loginCredentials.getPassword().equals(password))
-        {
-            return true;
-        }
-        return false;
-    }
-
-    public List<LoginCredentials> getLoginCredentialsList() {
-        return loginCredentialsList;
-    }
-
-    public int getLibraryNumber(LoginCredentials loginCredentials){
-        return loginCredentials.getLibraryNumber();
-    }
 
     /*Static Blocks */
 
-    public static void addBooks(Library library)
+    public static void initialiseLibrary(Library library)
     {
         // Create author list
         List<String> authors=new ArrayList<String>();
@@ -134,10 +78,8 @@ public class LibrarySystem {
         book=new Book(267589,"Java, A Beginner's Guide, 5th Edition",authors,"Oracle Press");
         booksTemp=new BookInventory(book,5);
         library.addBook(booksTemp);
-    }
 
-        public static void addMovies(Library library)
-    {
+
         /* Movie 1*/
         List<String> directors=new ArrayList<String>();
         directors.add("Ramesh Sippy");
@@ -243,29 +185,28 @@ public class LibrarySystem {
         movie=new Movie("Rowdy Rathore",directors);
         movieRating=new MovieRating(movie,-1);
         library.addMovie(movieRating);
-    }
 
-    public static void addUsers(LibrarySystem librarySystem)
-    {
+
+        /*Users */
         User user=new User();
         user.addUser("Harsha","Chaudhary");
-        LoginCredentials loginCredentials=new LoginCredentials(user, librarySystem.getUserListSize(),"abcd");
-        librarySystem.addUserToLibrary(loginCredentials);
+        LoginCredentials loginCredentials=new LoginCredentials(user, library.getUserListSize(),"abcd");
+        library.addUserToLibrary(loginCredentials);
 
         user=new User();
-        user.addUser("Amar","Singh");
-        loginCredentials=new LoginCredentials(user, librarySystem.getUserListSize(),"pqrs");
-        librarySystem.addUserToLibrary(loginCredentials);
+        user.addUser("Amar", "Singh");
+        loginCredentials=new LoginCredentials(user, library.getUserListSize(),"pqrs");
+        library.addUserToLibrary(loginCredentials);
 
         user=new User();
         user.addUser("John","Mathew");
-        loginCredentials=new LoginCredentials(user, librarySystem.getUserListSize(),"xyz");
-        librarySystem.addUserToLibrary(loginCredentials);
+        loginCredentials=new LoginCredentials(user, library.getUserListSize(),"xyz");
+        library.addUserToLibrary(loginCredentials);
 
         user=new User();
         user.addUser("Akanksha", "Kumar");
-        loginCredentials=new LoginCredentials(user, librarySystem.getUserListSize(),"1234");
-        librarySystem.addUserToLibrary(loginCredentials);
+        loginCredentials=new LoginCredentials(user, library.getUserListSize(),"1234");
+        library.addUserToLibrary(loginCredentials);
     }
 
 
@@ -276,9 +217,8 @@ public class LibrarySystem {
         Console consoleForMain=new Console();
         librarySystem.showWelcomeMessage();
         Library library=new Library();
-        addBooks(library);
-        addMovies(library);
-        addUsers(librarySystem);
+        int loginEnable=1;
+        initialiseLibrary(library);
         int noOfMenuOptions=librarySystem.noOfMenuOptions();
         int choice=0;
         do{
@@ -305,16 +245,15 @@ public class LibrarySystem {
                     }
                     break;
                 case 3:
-                    consoleForMain.printToConsole("Username:");
-                    int username= 0;
-                    username= Integer.parseInt(consoleForMain.getInputFromConsole());
-                    consoleForMain.printToConsole("Password");
-                    String password=consoleForMain.getInputFromConsole();
-                    if(librarySystem.authenticateUser(username,password))
+                    int username=librarySystem.getLoggedInUser();
+                    if(username!=0)
                     {
-                        int found=librarySystem.searchUser(username);
-                        String libraryNumber= Integer.toString(librarySystem.getLibraryNumber(librarySystem.getLoginCredentialsList().get(found)));
-                        consoleForMain.printToConsole("Libary Number :" + libraryNumber);
+                        String libraryNumber="";
+                        int usernameUpperPart=username/10000;
+                        libraryNumber=libraryNumber.concat(Integer.toString(usernameUpperPart)+"-");
+                        int usernameLowerPart=username%10000;
+                        libraryNumber=libraryNumber.concat(Integer.toString(usernameLowerPart));
+                        consoleForMain.printToConsole("Library Number :" + libraryNumber);
                     }
                     else
                     {
@@ -323,9 +262,49 @@ public class LibrarySystem {
                     break;
                 case 4:
                     consoleForMain.printToConsole(library.viewAllMovies());
-                     break;
-                case 5:
                     break;
+                case 5:
+                    if(loginEnable==1)
+                    {
+
+                        consoleForMain.printToConsole("Username:");
+                        String usernameString=consoleForMain.getInputFromConsole();
+                        String usernameArray[]=usernameString.split("-");
+                        username= Integer.parseInt(usernameArray[0])*10000;
+                        String usernameLowerPart=usernameString.substring(4,8);
+                        username=username+ Integer.parseInt(usernameLowerPart);
+                        consoleForMain.printToConsole("Password");
+                        String password=consoleForMain.getInputFromConsole();
+                        if(library.authenticateUser(username,password))
+                        {
+                            consoleForMain.printToConsole("Successfully Logged in!!");
+                            librarySystem.setLoggedInUser(username);
+                            loginEnable=0;
+                        }
+                        else
+                        {
+                            consoleForMain.printToConsole("Login Failed!!");
+                        }
+                    }
+                    else
+                    {
+                        consoleForMain.printToConsole("User already logged in!!");
+                    }
+                    break;
+                case 6:
+                    if(loginEnable!=1)
+                    {
+                        librarySystem.setLoggedInUser(0);
+                        consoleForMain.printToConsole("Logged Out !!");
+                        loginEnable=1;
+                    }
+                    else
+                    {
+                        consoleForMain.printToConsole("No User Logged in !!");
+                    }
+                    break;
+                case 7: break;
+
                 default:
                     System.out.println("Select a valid option!!");
             }

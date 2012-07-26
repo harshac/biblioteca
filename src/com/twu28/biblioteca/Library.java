@@ -14,6 +14,7 @@ import java.util.List;
 public class Library {
     private static List<BookInventory> bookList=new ArrayList<BookInventory>();
     private static List<MovieRating> movieList=new ArrayList<MovieRating>();
+    private static List<LoginCredentials> loginCredentialsList=new ArrayList<LoginCredentials>();
 
     public int addBook(BookInventory book) {
         if(searchBook(book.getBook().getIsbnNo())==-1)
@@ -109,4 +110,66 @@ public class Library {
         }
         return  movieDetails;
     }
+
+    public int getUserListSize() {
+        return loginCredentialsList.size();
+    }
+
+    public void addUserToLibrary(LoginCredentials loginCredentials)
+    {
+        loginCredentialsList.add(loginCredentials);
+    }
+
+
+    public int searchUser(int libraryNumber) {
+        int found=-1;
+        if(!checkEmpty(loginCredentialsList))
+        {
+            found=findUserInList(libraryNumber);
+        }
+        return found;
+    }
+
+      public int findUserInList(int libraryNumber) {
+        int found = -1;
+        for (LoginCredentials loginCredentials : loginCredentialsList) {
+            if (loginCredentials.getLibraryNumber() == libraryNumber)
+            {
+                found = loginCredentialsList.indexOf(loginCredentials);
+                break;
+            }
+        }
+        return found;
+    }
+
+    public boolean authenticateUser(int libraryNumber, String password) {
+        int found=searchUser(libraryNumber);
+        if(found!=-1)
+        {
+            return verifyPassword(found,password);
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+    private boolean verifyPassword(int libraryNumberIndex, String password) {
+        LoginCredentials loginCredentials=loginCredentialsList.get(libraryNumberIndex);
+        if(loginCredentials.getPassword().equals(password))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public List<LoginCredentials> getLoginCredentialsList() {
+        return loginCredentialsList;
+    }
+
+    public int getLibraryNumber(LoginCredentials loginCredentials){
+        return loginCredentials.getLibraryNumber();
+    }
+
 }

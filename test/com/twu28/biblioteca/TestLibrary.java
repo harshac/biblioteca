@@ -129,4 +129,56 @@ public class TestLibrary {
         String expectedMovieDetails="1\tSholay\t--\tRamesh Sippy,\t--\t9\n2\tDushman\t--\tShakti Samanta,\t--\tN/A\n";
         assertEquals(expectedMovieDetails,library.viewAllMovies());
     }
+
+    @Test
+    public void testSearchUserWhenUserIsFound()
+    {
+        User user=new User();
+        user.addUser("Celina","Bush");
+        LoginCredentials loginCredentials=new LoginCredentials(user,library.getUserListSize(),"abc");
+        library.addUserToLibrary(loginCredentials);
+
+        user=new User();
+        user.addUser("Justina", "Mathew");
+        loginCredentials=new LoginCredentials(user,library.getUserListSize(),"xyz");
+        library.addUserToLibrary(loginCredentials);
+        int userPositionInList= library.searchUser(1111112);
+        assertEquals(1,userPositionInList);
+    }
+
+    @Test
+    public void findUserInListWhenUserFound()
+    {
+        int index=library.findUserInList(1111112);
+        assertEquals(1,index);
+    }
+
+    @Test
+    public void findUserInListWhenUserNotFound()
+    {
+        int index=library.findUserInList(1111113);
+        assertEquals(-1,index);
+    }
+
+    @Test
+    public void testUserAuthenticationWhenSuccessful()
+    {
+        boolean authenticationSuccess= library.authenticateUser(1111111,"abc");
+        assertTrue(authenticationSuccess);
+    }
+
+    @Test
+    public void testUserAuthenticationWhenFailed()
+    {
+        boolean authenticationSuccess= library.authenticateUser(1111111,"ab");
+        org.junit.Assert.assertFalse(authenticationSuccess);
+    }
+
+    @Test
+    public void testGetLibraryNumberWhenUserIsValid()
+    {
+        int found=library.searchUser(1111111);
+        assertEquals(1111111, library.getLibraryNumber(library.getLoginCredentialsList().get(found)));
+
+    }
 }

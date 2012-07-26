@@ -25,7 +25,7 @@ public class TestMenu {
         testSpecificConsole.setUpOutputToPrintStream();
         String lineSeparator= testSpecificConsole.getLineSeparator();
         libraryMenu.displayMenu();
-        String expectedListOfMenuOptions="1.View all books"+lineSeparator+"2.Reserve a book"+lineSeparator+"3.Check Library Number"+lineSeparator+"4.View all movies"+lineSeparator+"5.Exit"+lineSeparator;
+        String expectedListOfMenuOptions="1.View all books"+lineSeparator+"2.Reserve a book"+lineSeparator+"3.Check Library Number"+lineSeparator+"4.View all movies"+lineSeparator+"5.Login"+lineSeparator+"6.Logout"+lineSeparator+"7.Exit"+lineSeparator;
         assertTrue(testSpecificConsole.getOutputStream().contains(expectedListOfMenuOptions));
         testSpecificConsole.tearDownOutputFromPrintStream();
     }

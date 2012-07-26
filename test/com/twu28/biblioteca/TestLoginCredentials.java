@@ -17,10 +17,10 @@ public class TestLoginCredentials {
     public void testIfLibraryNumberIsIncrementedByOne()
     {
         User user=new User();
-        LibrarySystem librarySystem=new LibrarySystem();
+        Library library=new Library();
         user.addUser("Harsha","Chaudhary");
-        LoginCredentials loginCredentials=new LoginCredentials(user,librarySystem.getUserListSize(),"abc");
-        assertEquals(librarySystem.getUserListSize()+1111111,loginCredentials.getLibraryNumber());
+        LoginCredentials loginCredentials=new LoginCredentials(user,library.getUserListSize(),"abc");
+        assertEquals(library.getUserListSize()+1111111,loginCredentials.getLibraryNumber());
     }
 
 }

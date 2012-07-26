@@ -35,7 +35,7 @@ public class TestLibrarySystem {
         testSpecificConsole.setUpOutputToPrintStream();
         librarySystem.showMenu();
         String lineSeparator=getLineSeparator();
-        String expectedListOfMenuOptions="1.View all books"+lineSeparator+"2.Reserve a book"+lineSeparator+"3.Check Library Number"+lineSeparator+"4.View all movies"+lineSeparator+"5.Exit"+lineSeparator;
+        String expectedListOfMenuOptions="1.View all books"+lineSeparator+"2.Reserve a book"+lineSeparator+"3.Check Library Number"+lineSeparator+"4.View all movies"+lineSeparator+"5.Login"+lineSeparator+"6.Logout"+lineSeparator+"7.Exit"+lineSeparator;
         assertTrue(getOutputStream().contains(expectedListOfMenuOptions));
 
     }
@@ -69,57 +69,7 @@ public class TestLibrarySystem {
     }
 
 
-    @Test
-    public void testSearchUserWhenUserIsFound()
-    {
-        User user=new User();
-        user.addUser("Celina","Bush");
-        LoginCredentials loginCredentials=new LoginCredentials(user,librarySystem.getUserListSize(),"abc");
-        librarySystem.addUserToLibrary(loginCredentials);
 
-        user=new User();
-        user.addUser("Justina","Mathew");
-        loginCredentials=new LoginCredentials(user,librarySystem.getUserListSize(),"xyz");
-        librarySystem.addUserToLibrary(loginCredentials);
-        int userPositionInList= librarySystem.searchUser(1111112);
-        assertEquals(1,userPositionInList);
-    }
-
-    @Test
-    public void findUserInListWhenUserFound()
-    {
-        int index=librarySystem.findUserInList(1111112);
-        assertEquals(1,index);
-    }
-
-    @Test
-    public void findUserInListWhenUserNotFound()
-    {
-        int index=librarySystem.findUserInList(1111113);
-        assertEquals(-1,index);
-    }
-
-    @Test
-    public void testUserAuthenticationWhenSuccessful()
-    {
-        boolean authenticationSuccess= librarySystem.authenticateUser(1111111,"abc");
-        assertTrue(authenticationSuccess);
-    }
-
-    @Test
-    public void testUserAuthenticationWhenFailed()
-    {
-        boolean authenticationSuccess= librarySystem.authenticateUser(1111111,"ab");
-        assertFalse(authenticationSuccess);
-    }
-
-    @Test
-    public void testGetLibraryNumberWhenUserIsValid()
-    {
-        int found=librarySystem.searchUser(1111111);
-        assertEquals(1111111,librarySystem.getLibraryNumber(librarySystem.getLoginCredentialsList().get(found)));
-
-    }
 
 
 }

@@ -21,7 +21,9 @@ public class LibraryMenu {
         listOfMenuOptions.add("2.Reserve a book");
         listOfMenuOptions.add("3.Check Library Number");
         listOfMenuOptions.add("4.View all movies");
-        listOfMenuOptions.add("5.Exit");
+        listOfMenuOptions.add("5.Login");
+        listOfMenuOptions.add("6.Logout");
+        listOfMenuOptions.add("7.Exit");
     }
 
 
